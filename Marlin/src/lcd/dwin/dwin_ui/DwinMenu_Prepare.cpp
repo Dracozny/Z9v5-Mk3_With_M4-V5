@@ -542,6 +542,12 @@ static void Item_Temperature_ABS(const uint8_t row) {
 	Draw_Menu_Line(row, ICON_ABSPREHEAT);
 }
 
+static void Item_Temperature_PETG(const uint8_t row) {
+	DWIN_Show_MultiLanguage_String(MTSTRING_PREHEAT, LBLX, MBASE(row));
+	DWIN_Show_MultiLanguage_String(MTSTRING_PETG, LBLX+get_MultiLanguageString_Width(MTSTRING_PREHEAT)+10, MBASE(row));
+	Draw_Menu_Line(row, ICON_PETGPREHEAT);
+}
+
 void Draw_Temperature_Menu() {
 	DwinMenuID = DWMENU_TEMPERATURE;
 	DwinMenu_temp.reset();
@@ -567,6 +573,7 @@ void Draw_Temperature_Menu() {
 	if (TCVISI(TEMP_CASE_FAN)) Item_Temperature_FANSpeed(TCSCROL(TEMP_CASE_FAN));
 	if (TCVISI(TEMP_CASE_PREHEATPLA)) Item_Temperature_PLA(TCSCROL(TEMP_CASE_PREHEATPLA));
 	if (TCVISI(TEMP_CASE_PREHEATABS)) Item_Temperature_ABS(TCSCROL(TEMP_CASE_PREHEATABS));
+	if (TCVISI(TEMP_CASE_PREHEATPETG)) Item_Temperature_PETG(TCSCROL(TEMP_CASE_PREHEATPETG));
 	if (TCVISI(TEMP_CASE_COOL)) Item_Temperature_Cool(TCSCROL(TEMP_CASE_COOL));
 
 	if (DwinMenu_temp.now) Draw_Menu_Cursor(TCSCROL(DwinMenu_temp.now));
@@ -651,6 +658,12 @@ void HMI_Temperature() {
 				thermalManager.setTargetHotend(ui.material_preset[1].hotend_temp, 0);
 				thermalManager.setTargetBed(ui.material_preset[1].bed_temp);
 				thermalManager.set_fan_speed(0, ui.material_preset[1].fan_speed);
+			break;
+
+			case TEMP_CASE_PREHEATPETG: // PETG preheat
+				thermalManager.setTargetHotend(ui.material_preset[2].hotend_temp, 0);
+				thermalManager.setTargetBed(ui.material_preset[2].bed_temp);
+				thermalManager.set_fan_speed(0, ui.material_preset[2].fan_speed);
 			break;
 	 #endif
 	 

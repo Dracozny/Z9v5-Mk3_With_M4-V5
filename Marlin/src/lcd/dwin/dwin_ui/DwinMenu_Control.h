@@ -277,6 +277,7 @@ enum {
 	CONTROL_CASE_MOTION,
 	CONTROL_CASE_SETPLA,
 	CONTROL_CASE_SETABS,
+	CONTROL_CASE_SETPETG,
 #if ENABLED(BLTOUCH)	
 	CONTROL_CASE_BLTOUCH,
 #endif
@@ -384,7 +385,8 @@ void HMI_Config();
 
 #if HAS_PREHEAT
 void HMI_PLAPreheatSetting();
-void HMI_ABSPreheatSetting();  
+void HMI_ABSPreheatSetting();
+void HMI_PETGPreheatSetting();  
 #endif
 
 void HMI_Control(); 

@@ -92,6 +92,7 @@ DwinMenu DwinMenu_control;
 DwinMenu DwinMenu_motion;
 DwinMenu DwinMenu_PreheatPLA;
 DwinMenu DwinMenu_PreheatABS;
+DwinMenu DwinMenu_PreheatPETG;
 DwinMenu DwinMenu_configure;
 DwinMenu DwinMenu_feedrate;
 DwinMenu DwinMenu_accel;
@@ -598,6 +599,7 @@ void DWIN_HandleScreen() {
 	#if HAS_PREHEAT
 		case DWMENU_PREHEAT_PLA:						HMI_PLAPreheatSetting(); break;
 		case DWMENU_PREHEAT_ABS:						HMI_ABSPreheatSetting(); break;
+		case DWMENU_PREHEAT_PETG:						HMI_PETGPreheatSetting(); break;
 	#endif
 		case DWMENU_MOVEAXIS:  							HMI_MoveAxis(); break;			
 		case DWMENU_MOVEX:     							HMI_Move_X(); break;

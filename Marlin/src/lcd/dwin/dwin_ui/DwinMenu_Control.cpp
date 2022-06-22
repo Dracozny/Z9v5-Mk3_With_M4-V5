@@ -72,6 +72,13 @@ static void Item_Control_ABS(const uint8_t row) {
 	Draw_More_Icon(row);	
 }
 
+static void Item_Control_PETG(const uint8_t row) {
+	DWIN_Show_MultiLanguage_String(MTSTRING_PREHEAT, LBLX, MBASE(row));
+	DWIN_Show_MultiLanguage_String(MTSTRING_PETG, LBLX+get_MultiLanguageString_Width(MTSTRING_PREHEAT)+5, MBASE(row));
+	Draw_Menu_Line(row, ICON_PETGPREHEAT);
+	Draw_More_Icon(row);	
+}
+
 #if ENABLED(BLTOUCH)
 static void Item_Control_BLtouch(const uint8_t row) {
 	DWIN_Show_MultiLanguage_String(MTSTRING_BLTOUCH, LBLX, MBASE(row)); 
@@ -140,6 +147,7 @@ void Draw_Control_Menu(const uint8_t MenuItem) {
 	if (CCVISI(CONTROL_CASE_MOTION + mixing_menu_adjust())) Item_Control_Motion(CCSCROL(CONTROL_CASE_MOTION + mixing_menu_adjust()));
 	if (CCVISI(CONTROL_CASE_SETPLA + mixing_menu_adjust())) Item_Control_PLA(CCSCROL(CONTROL_CASE_SETPLA + mixing_menu_adjust()));
 	if (CCVISI(CONTROL_CASE_SETABS + mixing_menu_adjust())) Item_Control_ABS(CCSCROL(CONTROL_CASE_SETABS + mixing_menu_adjust()));
+	if (CCVISI(CONTROL_CASE_SETPETG + mixing_menu_adjust())) Item_Control_PETG(CCSCROL(CONTROL_CASE_SETPETG + mixing_menu_adjust()));
 
 #if ENABLED(BLTOUCH)
 	if (CCVISI(CONTROL_CASE_BLTOUCH + mixing_menu_adjust())) Item_Control_BLtouch(CCSCROL(CONTROL_CASE_BLTOUCH + mixing_menu_adjust()));
@@ -3114,6 +3122,48 @@ inline void Draw_SetPreHeatABS_Menu(){
 #endif
 }
 
+///////////////////////////////////////////////////////////////////////////
+//
+// Control >> PreHeat PETG
+//
+inline void Draw_SetPreHeatPETG_Menu(){
+	DwinMenuID = DWMENU_PREHEAT_PETG;
+	DwinMenu_PreheatPETG.reset();
+	//DwinMenu_PreheatPETG.index = _MAX(DwinMenu_PreheatPETG.now, MROWS);
+	
+	Clear_Dwin_Area(AREA_TITAL|AREA_MENU);
+
+	dwinLCD.JPG_CacheTo1(get_title_picID());
+	DWIN_Show_MultiLanguage_String(MTSTRING_TITLE_PETG, TITLE_X, TITLE_Y);
+	dwinLCD.JPG_CacheTo1(HMI_flag.language+1);
+
+	Draw_Back_First();
+	
+	DWIN_Show_MultiLanguage_String(MTSTRING_NOZZLE, LBLX, MBASE(PREHEAT_CASE_TEMP));
+	DWIN_Show_MultiLanguage_String(MTSTRING_TEMP, LBLX+get_MultiLanguageString_Width(MTSTRING_NOZZLE)+6, MBASE(PREHEAT_CASE_TEMP));	
+	DWIN_Draw_IntValue_Default(3, MENUVALUE_X+8, MBASE(PREHEAT_CASE_TEMP), ui.material_preset[2].hotend_temp);
+	Draw_Menu_Line(PREHEAT_CASE_TEMP, ICON_SETENDTEMP);
+	
+#if HAS_HEATED_BED
+	DWIN_Show_MultiLanguage_String(MTSTRING_BED, LBLX, MBASE(PREHEAT_CASE_BED));
+	DWIN_Show_MultiLanguage_String(MTSTRING_TEMP, LBLX+get_MultiLanguageString_Width(MTSTRING_BED)+6, MBASE(PREHEAT_CASE_BED));
+	DWIN_Draw_IntValue_Default(3, MENUVALUE_X+8, MBASE(PREHEAT_CASE_BED), ui.material_preset[2].bed_temp);	
+	Draw_Menu_Line(PREHEAT_CASE_BED, ICON_SETBEDTEMP);
+#endif
+
+#if HAS_FAN
+	DWIN_Show_MultiLanguage_String(MTSTRING_FANSPEED, LBLX, MBASE(PREHEAT_CASE_FAN));
+	DWIN_Draw_IntValue_Default(3, MENUVALUE_X+8, MBASE(PREHEAT_CASE_FAN), ui.material_preset[2].fan_speed);
+	Draw_Menu_Line(PREHEAT_CASE_FAN, ICON_FANSPEED);
+#endif
+
+#if ENABLED(EEPROM_SETTINGS)
+	DWIN_Show_MultiLanguage_String(MTSTRING_STORE, LBLX, MBASE(PREHEAT_CASE_SAVE));
+	DWIN_Show_MultiLanguage_String(MTSTRING_SETTINGS, LBLX+get_MultiLanguageString_Width(MTSTRING_STORE)+6, MBASE(PREHEAT_CASE_SAVE));
+	Draw_Menu_Line(PREHEAT_CASE_SAVE, ICON_WRITEEEPROM);
+#endif
+}
+
  /* PLA Preheat */
 void HMI_PLAPreheatSetting() {
   ENCODER_DiffState encoder_diffState = get_encoder_state();
@@ -3226,6 +3276,64 @@ void HMI_ABSPreheatSetting() {
 	}
 	dwinLCD.UpdateLCD();
 }
+
+/* PETG Preheat */
+void HMI_PETGPreheatSetting() {
+	ENCODER_DiffState encoder_diffState = get_encoder_state();
+	if (encoder_diffState == ENCODER_DIFF_NO) return;
+
+	// Avoid flicker by updating only the previous menu
+	if (encoder_diffState == ENCODER_DIFF_CW) {
+		if (DwinMenu_PreheatPETG.inc(PREHEAT_CASE_END)) Move_Highlight(1, DwinMenu_PreheatPETG.now);
+	}
+	else if (encoder_diffState == ENCODER_DIFF_CCW) {
+		if (DwinMenu_PreheatPETG.dec()) Move_Highlight(-1, DwinMenu_PreheatPETG.now);
+	}
+  else if (encoder_diffState == ENCODER_DIFF_ENTER) {
+		switch (DwinMenu_PreheatPETG.now) {
+			case 0: // Back
+				Draw_Control_Menu(CONTROL_CASE_SETPETG + mixing_menu_adjust());
+			break;
+		#if HAS_HOTEND
+			case PREHEAT_CASE_TEMP: // Set nozzle temperature
+				DwinMenuID = DWMENU_SET_ETMP;
+				HMI_Value.E_Temp = ui.material_preset[2].hotend_temp;			
+				if(HMI_Value.E_Temp > HOTEND_WARNNING_TEMP)
+					DWIN_Draw_Warn_IntValue_Default(3, MENUVALUE_X+8, MBASE(PREHEAT_CASE_TEMP + MROWS - DwinMenu_PreheatPETG.index), HMI_Value.E_Temp);
+				else
+					DWIN_Draw_Select_IntValue_Default(3, MENUVALUE_X+8, MBASE(PREHEAT_CASE_TEMP + MROWS - DwinMenu_PreheatPETG.index), HMI_Value.E_Temp);
+				EncoderRate.enabled = true;
+			break;
+		#endif
+
+		#if HAS_HEATED_BED
+			case PREHEAT_CASE_BED: // Set bed temperature
+				DwinMenuID = DWMENU_SET_BTMP;
+				HMI_Value.Bed_Temp = ui.material_preset[2].bed_temp;
+				DWIN_Draw_Select_IntValue_Default(3, MENUVALUE_X+8, MBASE(PREHEAT_CASE_BED + MROWS - DwinMenu_PreheatPETG.index), HMI_Value.Bed_Temp);
+				EncoderRate.enabled = true;
+			break;
+		#endif
+
+		#if HAS_FAN
+			case PREHEAT_CASE_FAN: // Set fan speed
+				DwinMenuID = DWMENU_SET_FANSPEED;
+				HMI_Value.Fan_speed = ui.material_preset[2].fan_speed;
+				DWIN_Draw_Select_IntValue_Default(3, MENUVALUE_X+8, MBASE(PREHEAT_CASE_FAN + MROWS - DwinMenu_PreheatPETG.index), HMI_Value.Fan_speed);
+				EncoderRate.enabled = true;
+			break;
+		#endif
+
+		#if ENABLED(EEPROM_SETTINGS)
+			case PREHEAT_CASE_SAVE:  // Save PETG configuration
+				HMI_AudioFeedback(settings.save());
+			break;
+		#endif
+			default: break;
+		}
+	}
+	dwinLCD.UpdateLCD();
+}
 #endif
 
 
@@ -3243,7 +3351,8 @@ void HMI_Control() {
 				// Scroll up and draw a blank bottom line
 				Scroll_Menu(DWIN_SCROLL_UP);		
 				if (DwinMenu_control.index == CONTROL_CASE_SETPLA + mixing_menu_adjust()) Item_Control_PLA(MROWS);
-				else if (DwinMenu_control.index == CONTROL_CASE_SETABS + mixing_menu_adjust()) Item_Control_ABS(MROWS);
+				if (DwinMenu_control.index == CONTROL_CASE_SETABS + mixing_menu_adjust()) Item_Control_ABS(MROWS);
+				else if (DwinMenu_control.index == CONTROL_CASE_SETPETG + mixing_menu_adjust()) Item_Control_PETG(MROWS);
 			#if ENABLED(BLTOUCH)
 				else if(DwinMenu_control.index == CONTROL_CASE_BLTOUCH + mixing_menu_adjust()) Item_Control_BLtouch(MROWS);
 			#endif
@@ -3270,7 +3379,8 @@ void HMI_Control() {
 				else if (DwinMenu_control.index - MROWS == CONTROL_CASE_CONFIG + mixing_menu_adjust()) Item_Control_Config(0);
 				else if (DwinMenu_control.index - MROWS == CONTROL_CASE_MOTION + mixing_menu_adjust()) Item_Control_Motion(0);
 				else if (DwinMenu_control.index - MROWS == CONTROL_CASE_SETPLA + mixing_menu_adjust()) Item_Control_PLA(0);
-				else if (DwinMenu_control.index - MROWS == CONTROL_CASE_SETABS + mixing_menu_adjust()) Item_Control_ABS(0);		
+				else if (DwinMenu_control.index - MROWS == CONTROL_CASE_SETABS + mixing_menu_adjust()) Item_Control_ABS(0);
+				else if (DwinMenu_control.index - MROWS == CONTROL_CASE_SETPETG + mixing_menu_adjust()) Item_Control_PETG(0);		
 			}
 			else {
 				Move_Highlight(-1, DwinMenu_control.now + MROWS - DwinMenu_control.index);
@@ -3312,6 +3422,12 @@ void HMI_Control() {
 				DwinMenu_PreheatABS.reset();
 				HMI_flag.show_mode = SHOWED_PEHEAT_ABS;
 				Draw_SetPreHeatABS_Menu();
+			break;
+
+			case CONTROL_CASE_SETPETG: // PETG preheat setting				
+				DwinMenu_PreheatPETG.reset();
+				HMI_flag.show_mode = SHOWED_PEHEAT_PETG;
+				Draw_SetPreHeatPETG_Menu();
 			break;	
 
 		#if ENABLED(BLTOUCH)

@@ -1,3 +1,9 @@
+# !!!WARNING!!!
+**!!!DO NOT USE THIS FIRMWARE IF USING THE M4-V3 OR OLDER HOTEND!!!**
+## ADDED FEATURES: 
+1. Added PETG to Preheat Menu
+2. Changed Mixing Max Temp to 260. 
+
 ## ZONESTAR 3D Printer Firmware Source Code
 ###  Configured machines list   
 |     Config     |         Model       |    Control board    |  

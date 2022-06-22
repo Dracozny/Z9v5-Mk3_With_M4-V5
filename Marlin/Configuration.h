@@ -76,12 +76,12 @@
 //===========================================================================
 // Name displayed in the LCD "Ready" message and Info menu
 //===========================================================================
-#define CUSTOM_MACHINE_NAME 			"Z9V5-MK4"
-#define	FIRMWARE_VERSION					"V1.0.5"
-#define	STRING_DISTRIBUTION_DATE  "2022-06-10"
+#define CUSTOM_MACHINE_NAME 			"Z9V5-MK3"
+#define	FIRMWARE_VERSION					"V2.4.8-1"
+#define	STRING_DISTRIBUTION_DATE  "2022-06-22"
 #define SHORT_BUILD_VERSION 			"Marlin-2.0.8"
 #define WEBSITE_URL 							"www.zonestar3d.com"
-#define STRING_CONFIG_H_AUTHOR    "(ZONESTAR, Hally)"
+#define STRING_CONFIG_H_AUTHOR    "(ZONESTAR, Hally, Dracozny)"
 #define EEPROM_VERSION 			    	"V83"
 //===========================================================================
 //default feature, usually keep it enable
@@ -90,7 +90,7 @@
 #define	OPTION_AUTOPOWEROFF						//Power off after printer
 #define	OPTION_DUALZ_DRIVE  					//Dual Z driver motor(connect to Z2 motor connector)
 #define OPTION_Z2_ENDSTOP							//Dual Z driver motor(connect to Z2- connector)
-#define	OPTION_PL08N									//Probe use PL-08N
+#define	OPTION_ZLSENSOR								//Probe use ZLSENSOR
 #define	OPTION_BED_COATING						//bed coating Glass/Sticker etc.
 #define	OPTION_TMC2225_EXTRUDER				//TMC2225 be used to extruder motors
 #define	OPTION_HOTENDMAXTEMP					//set the max hotend temperature
@@ -98,8 +98,8 @@
 #define	OPTION_GUIDE_QRCODE           //Add a User Guide link QRcode on first power on
 #define	OPTION_NEWS_QRCODE						//Add a Update News QRcode on Info Menu
 #define	SWITCH_EXTRUDER_MENU					//Add a Switch Extruder Menu
-#define	DEFAULT_AUTO_LEVELING		false	//Default Auto leveling feature is off
-#define	DEFAULT_MIXING_SWITCH		false	//Default mixing feature is off
+#define	DEFAULT_AUTO_LEVELING	false		//Default Auto leveling feature is off
+#define	DEFAULT_MIXING_SWITCH	true		//Default mixing feature is on
 //===========================================================================
 //optional feature
 #define	OPTION_WIFI_MODULE					  //Option WiFi module(ESP 01s)
@@ -114,7 +114,7 @@
 #define	BED_COATING_THICKNESS	1.0			//stikcer thickness
 #endif
 #if ENABLED(OPTION_GUIDE_QRCODE)
-#define	STRING_GUIDE_LINK					"https://github.com/ZONESTAR3D/Z9/tree/main/Z9V5/Z9V5-MK4"
+#define	STRING_GUIDE_LINK					"https://github.com/ZONESTAR3D/Z9/tree/main/Z9V5/Z9V5-MK3"
 #endif
 #if ENABLED(OPTION_NEWS_QRCODE)
 #define	STRING_NEWS_LINK					"https://github.com/ZONESTAR3D/Z9/tree/main/Z9V5/UpdateNews"
@@ -1589,10 +1589,15 @@
 #define PREHEAT_1_TEMP_BED     60
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
-#define PREHEAT_2_LABEL       "PET"
+#define PREHEAT_2_LABEL       "ABS"
 #define PREHEAT_2_TEMP_HOTEND 230
 #define PREHEAT_2_TEMP_BED     85
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
+
+#define PREHEAT_3_LABEL       "PETG"
+#define PREHEAT_3_TEMP_HOTEND 240
+#define PREHEAT_3_TEMP_BED     80
+#define PREHEAT_3_FAN_SPEED     0 // Value from 0 to 255
 
 /**
  * Nozzle Park
@@ -1600,8 +1605,7 @@
  * Park the nozzle at the given XYZ position on idle or G27.
  *
  * The "P" parameter controls the action applied to the Z axis:
- *
- *    P0  (Default) If Z is below park Z raise the nozzle.
+ * *    P0  (Default) If Z is below park Z raise the nozzle.
  *    P1  Raise the nozzle always to Z-park height.
  *    P2  Raise the nozzle by Z-park amount, limited to Z_MAX_POS.
  */
@@ -2491,10 +2495,6 @@
   //#define RGB_LED_G_PIN 43
   //#define RGB_LED_B_PIN 35
   //#define RGB_LED_W_PIN -1
-  	#define RGB_LED_R_PIN PE9
-  	#define RGB_LED_G_PIN PE14
-  	#define RGB_LED_B_PIN PE15
-  	#define RGB_LED_W_PIN PE8
 #endif
 
 // Support for Adafruit NeoPixel LED driver

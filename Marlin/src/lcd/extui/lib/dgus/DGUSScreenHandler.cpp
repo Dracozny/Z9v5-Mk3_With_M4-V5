@@ -882,7 +882,7 @@ void DGUSScreenHandler::HandleHeaterControl(DGUS_VP_Variable &var, void *val_ptr
           TERN_(HAS_HEATED_BED, bed_temp = PREHEAT_2_TEMP_BED);
         #endif
         break;
-      case 2: // Preheat PET
+      case 2: // Preheat PETG
         #if defined(PREHEAT_3_TEMP_HOTEND) && defined(PREHEAT_3_TEMP_BED)
           e_temp = PREHEAT_3_TEMP_HOTEND;
           TERN_(HAS_HEATED_BED, bed_temp = PREHEAT_3_TEMP_BED);
@@ -956,7 +956,7 @@ void DGUSScreenHandler::HandleHeaterControl(DGUS_VP_Variable &var, void *val_ptr
       case 1: // Load ABS
         TERN_(PREHEAT_2_TEMP_HOTEND, e_temp = PREHEAT_2_TEMP_HOTEND);
         break;
-      case 2: // Load PET
+      case 2: // Load PETG
         #ifdef PREHEAT_3_TEMP_HOTEND
           e_temp = PREHEAT_3_TEMP_HOTEND;
         #endif

@@ -74,6 +74,7 @@ typedef enum{
 	ICON_SETHOME = 30,
 	ICON_PLAPREHEAT,
 	ICON_ABSPREHEAT,
+	ICON_PETGPREHEAT,
 	ICON_COOL,
 	ICON_LANGUAGE, 
 	ICON_MOVEX,  
@@ -93,6 +94,7 @@ typedef enum{
 	ICON_FANSPEED, 
 	ICON_SETPLAPREHEAT = 50,
 	ICON_SETABSPREHEAT,
+	ICON_SETPETGPREHEAT,
 	ICON_MAXSPEED, 
 	ICON_MAXACCELERATED,
 	ICON_MAXJERK,
@@ -275,6 +277,7 @@ enum{
  	MTSTRING_TITLE_BLTOUCH,
  	MTSTRING_TITLE_PLA,
  	MTSTRING_TITLE_ABS,
+	MTSTRING_TITLE_PETG,
  	MTSTRING_TITLE_FEEDRATE,
  	MTSTRING_TITLE_ACCEL,
  	MTSTRING_TITLE_JERK,
@@ -314,6 +317,7 @@ enum{
   MTSTRING_PREHEAT,
   MTSTRING_PLA,
   MTSTRING_ABS,
+  MTSTRING_PETG,
   MTSTRING_COOLDOWN,
   MTSTRING_LANGUAGE,
 	//control
@@ -381,7 +385,7 @@ enum{
   MTSTRING_BLTOUCH_MODE,
 #endif  
 
-	//PLA&ABS settings
+	//PLA,ABS&PETG settings
   MTSTRING_NOZZLE,
   MTSTRING_SETTINGS,
 	//MAX 
@@ -427,6 +431,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{61, 428,128,441},										//bltouch
 		{130,428,160,441},										//pla
 		{161,428,194,441},										//abs
+		{161,428,194,441},										//petg
 		{195,428,263,441},										//feedrate
 		{  1,443, 99,456},										//accel 
 		{100,442,134,456},										//jerk
@@ -466,6 +471,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{  1, 95, 62,109},										//preheat 
 		{ 62, 95, 93,109},										//PLA
 		{ 94, 95,126,109},										//ABS
+		{ 94, 95,126,109},										//PETG
 		{ 86,111,169,125},										//cooldown
 		{171,112,248,128},										//language
 	   //control
@@ -530,7 +536,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{157,186,213,201},										//deploy
 	  {  2,202, 82,215},										//sw-mode
 #endif	  
-		//PLA&ABS settings
+		//PLA,ABS&PETG settings
 		{217,232,270,246},										//nozzle
 		{ 51, 59,118, 74},										//settings
 		//MAX 
@@ -570,6 +576,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{101,317,168,330},										//bltouch
 		{170,317,200,330},										//pla
 		{201,317,234,330},										//abs
+		{201,317,234,330},										//petg
 		{129,248,184,264},										//feedrate
 		{  1,332, 66,343},										//accel 
 		{ 67,332,100,343},										//jerk
@@ -609,6 +616,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{  1,108, 53,121},										//preheat 
 		{ 55,108, 85,121},										//PLA
 		{ 86,108,118,121},										//ABS
+		{ 86,108,118,121},										//petg
 		{ 74,141,126,154},										//cooldown
 		{127,141,191,154},										//language
 	    //control
@@ -673,7 +681,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{157,208,245,225},										//deploy
 	  { 80,278,162,291},										//sw-mode
 #endif	  
-		//PLA&ABS settings
+		//PLA,ABS&PETG settings
 		{214,243,269,256},										//nozzle
 		{ 66, 55,123, 71},										//settings
 		//MAX 
@@ -713,6 +721,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{  2,140, 66,152},										//bltouch
 		{ 68,141, 98,153},										//pla
 		{100,141,132,153},										//abs
+		{100,141,132,153},										//petg
 		{133,141,212,157},										//feedrate
 		{  2,124, 92,137},										//accel 
 		{214,142,269,153},										//jerk
@@ -752,6 +761,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{207,103,264,117},										//preheat 
 		{212,353,242,365},										//PLA
 		{231,353,263,365},										//ABS
+		{231,353,263,365},										//PETG
 		{  1,157, 73,170},										//cooldown
 		{186,122,227,130},										//language
 	  //control
@@ -816,7 +826,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{  2,228, 78,243},										//deploy
 	  { 80,228,171,238},										//sw-mode
 #endif
-		//PLA&ABS settings
+		//PLA,ABS&PETG settings
 		{ 96,281,148,292},										//nozzle
 		{ 74, 68,163, 83},										//settings
 		//MAX 
@@ -856,6 +866,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{  1,407, 68,420},										//bltouch
 		{ 70,407,100,420},										//pla
 		{101,407,133,420},										//abs
+		{101,407,133,420},										//petg
 		{135,406,194,420},										//feedrate
 		{  1,390,100,404},										//accel 
 		{194,406,226,424},										//jerk
@@ -895,6 +906,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{200, 69,245, 82},										//preheat 
 		{143,134,173,146},										//PLA
 		{174,134,206,146},										//ABS
+		{174,134,206,146},										//PETG
 		{  2,134, 66,147},										//cooldown
 		{130,118,184,133},										//language
 	  //control
@@ -959,7 +971,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{ 49,184,121,201},										//deploy
 	  {  2,203, 79,216},										//sw-mode
 #endif
-		//PLA&ABS settings
+		//PLA,ABS&PETG settings
 		{117,148,153,161},										//nozzle
 		{221,219,246,231},										//settings
 		//MAX 
@@ -999,6 +1011,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{  1,263, 68,276},										//bltouch
 		{ 70,263,100,276},										//pla
 		{101,263,133,276},										//abs
+		{101,263,133,276},										//petg
 		{134,262,216,276},										//feedrate
 		{  1,244, 87,262},										//accel 
 		{ 57,208,108,222},										//jerk
@@ -1038,6 +1051,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{143, 88,238,103},										//preheat 
 		{203,158,233,170},										//PLA
 		{234,158,266,170},										//ABS
+		{234,158,266,170},										//PETG
 		{  1,175, 75,188},										//cooldown
 		{114,157,165,173},										//language
 	  //control
@@ -1102,7 +1116,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{ 99,227,230,240},										//deploy
 	  {  1,260, 81,272},									//sw-mode
 #endif
-		//PLA&ABS settings
+		//PLA,ABS&PETG settings
 		{136,276,193,288},										//nozzle
 		{190,260,248,277},										//settings
 		//MAX

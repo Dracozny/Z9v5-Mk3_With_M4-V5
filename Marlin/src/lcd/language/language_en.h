@@ -522,6 +522,7 @@ namespace Language_en {
 
   PROGMEM Language_Str MSG_PREHEAT_PLA           		   = _UxGT("PreheatPLA");
   PROGMEM Language_Str MSG_PREHEAT_ABS           		   = _UxGT("PreheatABS");
+  PROGMEM Language_Str MSG_PREHEAT_PETG           		   = _UxGT("PreheatPETG");
   PROGMEM Language_Str MSG_LANGUAGE           		       = _UxGT("Language");
   PROGMEM Language_Str MSG_Z_POSITION           		   = _UxGT("Z-Position");
 

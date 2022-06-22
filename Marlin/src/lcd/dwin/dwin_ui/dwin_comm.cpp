@@ -291,6 +291,7 @@ void HMI_ETemp() {
 			case SHOWED_TEMPERATURE: temp_line = TEMP_CASE_ETEMP + MROWS - DwinMenu_temp.index; break;
 			case SHOWED_PEHEAT_PLA: temp_line = PREHEAT_CASE_TEMP; break;
 			case SHOWED_PEHEAT_ABS: temp_line = PREHEAT_CASE_TEMP; break;
+			case SHOWED_PEHEAT_PETG: temp_line = PREHEAT_CASE_TEMP; break;
 			default: temp_line = TUNE_CASE_ETEMP + MROWS - DwinMenu_tune.index;
 		}
 		if (Apply_Encoder_int16(encoder_diffState, &HMI_Value.E_Temp)) {
@@ -315,6 +316,12 @@ void HMI_ETemp() {
 					DwinMenuID = DWMENU_PREHEAT_ABS;				
 					DWIN_Draw_IntValue_Default(3, MENUVALUE_X+8, MBASE(temp_line), HMI_Value.E_Temp);
 					ui.material_preset[1].hotend_temp = HMI_Value.E_Temp;
+				break;
+
+				case SHOWED_PEHEAT_PETG:
+					DwinMenuID = DWMENU_PREHEAT_PETG;				
+					DWIN_Draw_IntValue_Default(3, MENUVALUE_X+8, MBASE(temp_line), HMI_Value.E_Temp);
+					ui.material_preset[2].hotend_temp = HMI_Value.E_Temp;
 				break;
 				
 				default:
@@ -354,6 +361,7 @@ void HMI_BedTemp() {
 			case SHOWED_TEMPERATURE: bed_line = TEMP_CASE_BTEMP + MROWS - DwinMenu_temp.index; break;
 			case SHOWED_PEHEAT_PLA: bed_line = PREHEAT_CASE_BED; break;
 			case SHOWED_PEHEAT_ABS: bed_line = PREHEAT_CASE_BED; break;
+			case SHOWED_PEHEAT_PETG: bed_line = PREHEAT_CASE_BED; break;
 			default: bed_line = TUNE_CASE_BTEMP + MROWS - DwinMenu_tune.index; break;
 		}
 		if (Apply_Encoder_int16(encoder_diffState, &HMI_Value.Bed_Temp)) {
@@ -375,6 +383,12 @@ void HMI_BedTemp() {
 					DwinMenuID = DWMENU_PREHEAT_ABS;					
 					DWIN_Draw_IntValue_Default(3, MENUVALUE_X+8, MBASE(bed_line), HMI_Value.Bed_Temp);
 					ui.material_preset[1].bed_temp = HMI_Value.Bed_Temp;
+				break;
+
+				case SHOWED_PEHEAT_PETG: 
+					DwinMenuID = DWMENU_PREHEAT_PETG;					
+					DWIN_Draw_IntValue_Default(3, MENUVALUE_X+8, MBASE(bed_line), HMI_Value.Bed_Temp);
+					ui.material_preset[2].bed_temp = HMI_Value.Bed_Temp;
 				break;
 				
 				default: 
@@ -403,6 +417,7 @@ void HMI_FanSpeed() {
 			case SHOWED_TEMPERATURE: fan_line = TEMP_CASE_FAN + MROWS - DwinMenu_temp.index; break;
 			case SHOWED_PEHEAT_PLA: fan_line = PREHEAT_CASE_FAN; break;
 			case SHOWED_PEHEAT_ABS: fan_line = PREHEAT_CASE_FAN; break;
+			case SHOWED_PEHEAT_PETG: fan_line = PREHEAT_CASE_FAN; break;
 			default: fan_line = TUNE_CASE_FAN + MROWS - DwinMenu_tune.index;
 		}
 		if (Apply_Encoder_int16(encoder_diffState, &HMI_Value.Fan_speed)) {
@@ -423,6 +438,12 @@ void HMI_FanSpeed() {
 					DwinMenuID = DWMENU_PREHEAT_ABS;					
 					DWIN_Draw_IntValue_Default(3, MENUVALUE_X+8, MBASE(fan_line), HMI_Value.Fan_speed);
 					ui.material_preset[1].fan_speed = HMI_Value.Fan_speed;
+				break;
+
+				case SHOWED_PEHEAT_PETG:
+					DwinMenuID = DWMENU_PREHEAT_PETG;					
+					DWIN_Draw_IntValue_Default(3, MENUVALUE_X+8, MBASE(fan_line), HMI_Value.Fan_speed);
+					ui.material_preset[2].fan_speed = HMI_Value.Fan_speed;
 				break;
 				
 				default:

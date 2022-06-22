@@ -856,7 +856,18 @@ void AnycubicTFTClass::GetCommandFromTFT() {
             }
             break;
 
-          case 25: // A25 cool down
+            case 25:// A25 preheat petg
+            if (!ExtUI::isPrinting()) {
+              if (ExtUI::getAxisPosition_mm(ExtUI::Z) < 10)
+                ExtUI::injectCommands_P(PSTR("G1 Z10")); // RASE Z AXIS
+
+              ExtUI::setTargetTemp_celsius(PREHEAT_3_TEMP_BED, (ExtUI::heater_t) ExtUI::BED);
+              ExtUI::setTargetTemp_celsius(PREHEAT_3_TEMP_HOTEND, (ExtUI::extruder_t) ExtUI::E0);
+              SENDLINE_PGM("OK");
+            }
+            break;
+
+          case 26: // A26 cool down
             if (!ExtUI::isPrinting()) {
               ExtUI::setTargetTemp_celsius(0, (ExtUI::heater_t) ExtUI::BED);
               ExtUI::setTargetTemp_celsius(0, (ExtUI::extruder_t) ExtUI::E0);
@@ -865,7 +876,7 @@ void AnycubicTFTClass::GetCommandFromTFT() {
             }
             break;
 
-          case 26: // A26 refresh SD
+          case 27: // A27 refresh SD
             #if ENABLED(SDSUPPORT)
               if (ExtUI::isMediaInserted()) {
                 if (strlen(SelectedDirectory) > 0) {
@@ -890,10 +901,10 @@ void AnycubicTFTClass::GetCommandFromTFT() {
             break;
 
             #if ENABLED(SERVO_ENDSTOPS)
-              case 27: break; // A27 servos angles adjust
+              case 28: break; // A28 servos angles adjust
             #endif
 
-          case 28: // A28 filament test
+          case 29: // A29 filament test
             if (CodeSeen('O'))
               NOOP;
             else if (CodeSeen('C'))
@@ -901,7 +912,7 @@ void AnycubicTFTClass::GetCommandFromTFT() {
             SENDLINE_PGM("");
             break;
 
-          case 33: // A33 get version info
+          case 34: // A34 get version info
             SEND_PGM("J33 ");
             SENDLINE_PGM(DETAILED_BUILD_VERSION);
             break;

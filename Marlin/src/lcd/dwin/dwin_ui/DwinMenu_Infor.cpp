@@ -144,7 +144,7 @@ static void Item_Info_Bed(const uint8_t row) {
 
 static void Item_Info_Hotend(const uint8_t row) {
 	#define _HOTEND_MAXYEMP (HEATER_0_MAXTEMP - HOTEND_OVERSHOOT)
-	DWIN_Draw_UnMaskString_Default(LBLX_INFO, MBASE(row), PSTR("HotEnd: MINTEMP:" STRINGIFY(HEATER_0_MINTEMP) " MAXTEMP:235"));
+	DWIN_Draw_UnMaskString_Default(LBLX_INFO, MBASE(row), PSTR("HotEnd: MINTEMP:" STRINGIFY(HEATER_0_MINTEMP) " MAXTEMP:260"));
 	Draw_Menu_Line(row);
 }
 

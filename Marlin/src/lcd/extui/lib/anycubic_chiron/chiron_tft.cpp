@@ -686,7 +686,18 @@ namespace Anycubic {
         }
         break;
 
-      case 25:   // A25 Cool Down
+        case 25:   // A25 Preheat PETG
+        // Ignore request if printing
+        if (!isPrinting()) {
+          setTargetTemp_celsius(PREHEAT_3_TEMP_BED, BED);
+          setTargetTemp_celsius(PREHEAT_3_TEMP_HOTEND, E0);
+          SendtoTFTLN();
+          hotbed_state = AC_heater_temp_set;
+          hotend_state = AC_heater_temp_set;
+        }
+        break;
+
+      case 26:   // A26 Cool Down
         // Ignore request if printing
         if (!isPrinting()) {
           setTargetTemp_celsius(0, E0);
@@ -697,15 +708,15 @@ namespace Anycubic {
         }
         break;
 
-      case 26:   // A26 Refresh SD
+      case 27:   // A27 Refresh SD
         // M22 M21 maybe needed here to reset sd card
         filenavigator.reset();
         break;
 
-      case 27:   // A27 Servo Angles adjust
+      case 28:   // A28 Servo Angles adjust
         break;
 
-      case 28:   // A28 Filament set A28 O/C
+      case 29:   // A29 Filament set A28 O/C
         // Ignore request if printing
         if (isPrinting()) break;
         SendtoTFTLN();
@@ -715,7 +726,7 @@ namespace Anycubic {
 
   void ChironTFT::PanelProcess(uint8_t req) {
     switch (req) {
-      case 29: { // A29 Read Mesh Point A29 X1 Y1
+      case 30: { // A29 Read Mesh Point A29 X1 Y1
         xy_uint8_t pos;
         float pos_z;
         pos.x = atoi(&panel_command[5]);
@@ -751,7 +762,7 @@ namespace Anycubic {
         }
       } break;
 
-      case 30: {  // A30 Auto leveling
+      case 31: {  // A31 Auto leveling
         if (panel_command[3] == 'S') { // Start probing
           // Ignore request if printing
           if (isPrinting())
@@ -765,7 +776,7 @@ namespace Anycubic {
         else SendtoTFTLN(AC_msg_start_probing);
       }  break;
 
-      case 31: { // A31 Adjust all Probe Points
+      case 32: { // A32 Adjust all Probe Points
         switch (panel_command[3]) {
           case 'C':   // Restore and apply original offsets
             if (!isPrinting()) {
@@ -847,16 +858,16 @@ namespace Anycubic {
         } // end switch
       } break;
 
-      case 32: { // A32 clean leveling beep flag
+      case 33: { // A33 clean leveling beep flag
         // Ignore request if printing
         //if (isPrinting()) break;
         //injectCommands_P(PSTR("M500\nM420 S1\nG1 Z10 F240\nG1 X0 Y0 F6000"));
         //TFTSer.println("");
       } break;
 
-      // A33 firmware info request seet PanelInfo()
+      // A34 firmware info request seet PanelInfo()
 
-      case 34: {  // A34 Adjust single mesh point A34 C/S X1 Y1 V123
+      case 35: {  // A35 Adjust single mesh point A34 C/S X1 Y1 V123
         if (panel_command[3] == 'C') { // Restore original offsets
           injectCommands_P(PSTR("M501\nM420 S1"));
           selectedmeshpoint.x = 99;

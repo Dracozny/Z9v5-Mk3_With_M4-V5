@@ -141,7 +141,8 @@ typedef enum {
   DWMENU_HOME,
   DWMENU_TEMPERATURE,
   DWMENU_PREHEAT_PLA,
-	DWMENU_PREHEAT_ABS = 10,	
+  DWMENU_PREHEAT_ABS  = 10,
+	DWMENU_PREHEAT_PETG,	
   DWMENU_MOVEAXIS,
   DWMENU_MOVEX,
   DWMENU_MOVEY,
@@ -152,7 +153,7 @@ typedef enum {
 	DWMENU_MOVE_EXT4,
 	DWMENU_MOVE_EXTALL,	
 	
-	DWMENU_FILAMENT = 20,
+	DWMENU_FILAMENT = 21,
 	DWMENU_FILAMENT_PREHEAT,
 	DWMENU_FILAMENT_EXTRUDER,
 	DWMENU_FILAMENT_FEEDLENGTH,
@@ -164,7 +165,7 @@ typedef enum {
 	DWMENU_LEVEL_DONECONFIRM,
 		
   //Control menu  
-  DWMENU_MIXER = 30,
+  DWMENU_MIXER = 31,
   DWMENU_CONFIG,
   DWMENU_MOTION,
   DWMENU_POWERDOWN,
@@ -502,7 +503,8 @@ typedef enum{
 	SHOWED_TUNE = 0,
 	SHOWED_TEMPERATURE,	
 	SHOWED_PEHEAT_PLA,
-	SHOWED_PEHEAT_ABS
+	SHOWED_PEHEAT_ABS,
+	SHOWED_PEHEAT_PETG
 }_emShowMode;
 
 
@@ -583,6 +585,7 @@ extern DwinMenu DwinMenu_control;
 extern DwinMenu DwinMenu_motion;
 extern DwinMenu DwinMenu_PreheatPLA;
 extern DwinMenu DwinMenu_PreheatABS;
+extern DwinMenu DwinMenu_PreheatPETG;
 extern DwinMenu DwinMenu_feedrate;
 extern DwinMenu DwinMenu_accel;
 extern DwinMenu DwinMenu_jerk;
