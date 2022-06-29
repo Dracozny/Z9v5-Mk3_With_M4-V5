@@ -431,7 +431,7 @@ constexpr uint16_t MULTILANGSTR_COORDINATE[LANG_NUMBER][MTSTRING_NUMBER][4] PROG
 		{61, 428,128,441},										//bltouch
 		{130,428,160,441},										//pla
 		{161,428,194,441},										//abs
-		{161,428,194,441},										//petg
+		{  1,337, 39,352},										//petg
 		{195,428,263,441},										//feedrate
 		{  1,443, 99,456},										//accel 
 		{100,442,134,456},										//jerk
